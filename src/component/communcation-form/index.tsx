@@ -13,24 +13,6 @@
  * limitations under the License.
  */
 
-// #region -Dependencies
-
-// MARK: React
-import { useEffect } from "react"
-
-// MARK: Next: Router
-import { useRouter } from "next/router"
-
-// #endregion
-
-// MARK: -Component
-export default function NotFound() {
-	const router = useRouter()
-
-	const redirect = () => {
-		router.push("/", undefined)
-	}
-
-	useEffect(redirect, [])
+export function CommunicationForm() {
 	return null
 }

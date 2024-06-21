@@ -13,24 +13,24 @@
  * limitations under the License.
  */
 
-// #region -Dependencies
+// #region -Contributors’
 
-// MARK: React
-import { useEffect } from "react"
+// MARK: SCSS
+import scss from "./variable.module.scss"
 
-// MARK: Next: Router
-import { useRouter } from "next/router"
+// MARK: .
+import { useObject } from "@/lib"
 
 // #endregion
 
 // MARK: -Component
-export default function NotFound() {
-	const router = useRouter()
+export default function Page() {
+	const object = useObject(true)
+	const json = JSON.stringify(object, null, 2)
 
-	const redirect = () => {
-		router.push("/", undefined)
-	}
-
-	useEffect(redirect, [])
-	return null
+	return (
+		<p className={scss.json}>
+			<pre>{json}</pre>
+		</p>
+	)
 }

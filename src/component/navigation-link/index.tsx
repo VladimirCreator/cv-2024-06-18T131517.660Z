@@ -15,22 +15,34 @@
 
 // #region -Dependencies
 
-// MARK: React
-import { useEffect } from "react"
-
+// MARK: Next: Link
+import Link from "next/link"
 // MARK: Next: Router
 import { useRouter } from "next/router"
 
 // #endregion
 
+// #region -Contributors’
+// #endregion
+
+type Props = any
+
 // MARK: -Component
-export default function NotFound() {
+export function NavLink(props: Readonly<Props>) {
+	const { href, label, onClick } = props
 	const router = useRouter()
+	const path = router.asPath
 
-	const redirect = () => {
-		router.push("/", undefined)
-	}
-
-	useEffect(redirect, [])
-	return null
+	return (
+		<Link href={href} prefetch={false} passHref>
+			<button
+				type="button"
+				className={path === href ? "active" : ""}
+				onClick={onClick}
+			>
+				{label}
+				<span className="background" />
+			</button>
+		</Link>
+	)
 }

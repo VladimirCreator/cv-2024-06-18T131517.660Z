@@ -14,17 +14,26 @@
 
 # [ ](governance): CC-BY-4.0
 
+root = true
+
 # MARK: -Essentials
+[*]
+charset = utf-8
 
+indent_style = tab
+indent_size = 2
 
-# MARK: -Artifact
-_site/
+quite_type = double
 
-# MARK: -The Node Package Manager
-node_modules/
+trim_trailing_whitespace = true
+end_of_line = lf
 
-# MARK: -Next
-.next
+insert_final_newline = true
 
-# MARK: -Nx
-.nx/
+# MARK: -YAML Ain’t Markup Language
+[*.{yml,yaml}]
+indent_style = space
+
+# MARK: -Markdown
+[*.md]
+

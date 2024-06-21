@@ -1,157 +1,137 @@
-import React from "react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { PrismicRichText } from "@prismicio/react";
-import { Tooltip } from "@mui/material";
-
-import { createClient } from "../../prismicio";
-
-import { Page } from "../styles/global";
-import { Hero, Projects } from "../styles/Home";
-import { ProjectCard } from "../components/ProjectCard";
-import Contato from "../components/Contato";
-
-type SocialItem = {
-  name: string;
-  icon: string;
-  url: string;
-};
-
-type Content = {
-  avatar: string;
-  title: string;
-  subtitle: string;
-  description: [];
-  social: SocialItem[];
-};
-
-type Project = {
-  slug: string;
-  name: string;
-  link: string;
-  call: [];
-  banner: string;
-  place: number;
-};
-interface HomeProps {
-  content: Content;
-  projects: Project[];
-}
-
-/**
- * Home Page
- * @return {JSX.Element}
+/* Copyright 2024 Vladimir Leonidovich
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-export default function Home({ content, projects }: HomeProps): JSX.Element {
-  const router = useRouter();
+// #region -Dependencies
 
-  return (
-    <Page>
-      <Head>
-        <title>Home | Arthur Sena</title>
-      </Head>
-      <Hero>
-        <div className="info">
-          <h2>{content?.subtitle}</h2>
-          <h1>{content?.title}</h1>
-          <PrismicRichText field={content?.description} />
-          <div>
-            <button
-              type="button"
-              onClick={() => {
-                const contato = document.querySelector("#contato");
+// MARK: Next
+import Head from "next/head"
+// MARK: Next: Router
+import { useRouter } from "next/router"
 
-                contato.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="filled"
-            >
-              Entrar em contato
-              <span className="background" />
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                const projetos = document.querySelector("#projetos");
+// MARK: MUI: Material
+import { Tooltip } from "@mui/material"
 
-                projetos.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="outlined"
-            >
-              Meus Projetos
-              <span className="background" />
-            </button>
-            <button
-              type="button"
-              onClick={() => router.push("/sobre")}
-              className="link"
-            >
-              Sobre mim
-              <span className="background" />
-            </button>
-          </div>
-        </div>
-        <div className="avatar">
-          <img src={content?.avatar} alt="Arthur Sena" />
-          <div>
-            {content?.social?.map((item) => {
-              return (
-                <Tooltip title={item.name} key={item.name}>
-                  <a target="_blank" rel="noreferrer" href={item.url}>
-                    <img src={item.icon} alt={`Logo ${item.name}`} />
-                  </a>
-                </Tooltip>
-              );
-            })}
-          </div>
-        </div>
-      </Hero>
-      <span id="projetos" style={{ height: "5rem", marginTop: "-3rem" }} />
-      <Projects>
-        <h1>Meus Projetos</h1>
-        {projects.map((item, index) => {
-          return <ProjectCard key={item.slug} {...item} isLast={index === 2} />;
-        })}
-      </Projects>
-      <span id="contato" style={{ height: "7rem", marginTop: "-5rem" }} />
-      <Contato />
-    </Page>
-  );
-}
+// #endregion
 
-export async function getServerSideProps({ previewData }) {
-  const client = createClient({ previewData });
+// #region -Contributors’
 
-  const { data } = await client.getSingle("home");
+// MARK: .
+import { useObject } from "@/lib"
 
-  const content = {
-    ...data,
-    avatar: data?.avatar?.url,
-    social: data?.social?.map((item) => {
-      return {
-        ...item,
-        icon: item?.icon?.url,
-      };
-    }),
-  };
+// MARK: .
+import { Page } from "@/styles/global"
+import { Hero, Projects } from "@/styles/Home"
 
-  const projectsRes = await client.getAllByType("project");
+// MARK: Components
+import { CommunicationForm, ProjectCard } from "@/component"
 
-  const projects = projectsRes.map(({ uid, data: projectsData }) => {
-    return {
-      slug: uid,
-      name: projectsData.name,
-      link: projectsData.link,
-      call: projectsData.call,
-      banner: projectsData.banner.url,
-      place: projectsData.place,
-    };
-  });
+// #endregion
 
-  projects.sort((a, b) => a.place - b.place);
-  projects.splice(-1, projects.length - 3);
+// MARK: -Component
+export default function Home() {
+	const {
+		contributor: { name, role, synopsis, url, socials },
+		dependencies,
+		"key-0": { "key-0": key }
+	} = useObject()
+	const router = useRouter()
 
-  return {
-    props: { content, projects },
-  };
+	return (
+		<Page>
+			<Head>
+				<title>Главная | {name}</title>
+			</Head>
+			<Hero>
+				<div className="info">
+					<h2>{key ?? role}</h2>
+					<h1>{name}</h1>
+					<p>{synopsis}</p>
+					<div>
+						<button
+							style={{ display: "none" }}
+							type="button"
+							onClick={() => {
+								const contato = document.querySelector("#contato")
+
+								contato.scrollIntoView({ behavior: "smooth" })
+							}}
+							className="filled"
+						>
+							Entrar em contato
+							<span className="background" />
+						</button>
+						<button
+							type="button"
+							onClick={() => {
+								const projetos = document.querySelector("#projetos")
+
+								projetos.scrollIntoView({ behavior: "smooth" })
+							}}
+							className="outlined"
+						>
+							Мои Артефакты
+							<span className="background" />
+						</button>
+						<button
+							type="button"
+							onClick={() => router.push("/sobre")}
+							className="link"
+						>
+							Обо мне
+							<span className="background" />
+						</button>
+					</div>
+				</div>
+				<div className="avatar">
+					<img alt={name} src={url.picture} />
+					<div>
+						{socials.map(item => {
+							const { name, url } = item
+							const lookupKey = name.toLowerCase()
+
+							return (
+								<Tooltip title={name} key={name}>
+									<a rel="noreferrer" target="_blank" href={url}>
+										<img
+											alt={`Logo of ${name}`}
+											src={dependencies[lookupKey]}
+										/>
+									</a>
+								</Tooltip>
+							)
+						})}
+					</div>
+				</div>
+			</Hero>
+			<span id="projetos" style={{ height: "5rem", marginTop: "-3rem" }} />
+			<Projects>
+				<h1>Мои Артефакты</h1>
+				{url.artifacts.slice(0, 3).map((artifact, index) => {
+					const { name, ...rest } = artifact
+					return (
+						<ProjectCard
+							key={name}
+							name={name}
+							{...rest}
+							isLast={index === 2}
+						/>
+					)
+				})}
+			</Projects>
+			<span id="contato" style={{ height: "7rem", marginTop: "-5rem" }} />
+			<CommunicationForm />
+		</Page>
+	)
 }

@@ -13,24 +13,22 @@
  * limitations under the License.
  */
 
-// #region -Dependencies
+import styled from "styled-components"
 
-// MARK: React
-import { useEffect } from "react"
+export const Wrapper = styled.div`
+	width: 90%;
+	max-width: 600px;
 
-// MARK: Next: Router
-import { useRouter } from "next/router"
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0.75rem;
+	margin-bottom: 0.75rem;
 
-// #endregion
-
-// MARK: -Component
-export default function NotFound() {
-	const router = useRouter()
-
-	const redirect = () => {
-		router.push("/", undefined)
+	* {
+		width: 100% !important;
 	}
 
-	useEffect(redirect, [])
-	return null
-}
+	@media (min-width: 800px) {
+		grid-template-columns: 1fr 1fr;
+	}
+`

@@ -1,0 +1,38 @@
+name: CI/CD
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+jobs:
+  cicd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          cache: pnpm
+
+      - run: pnpm install
+      - run: export NODE_OPTIONS=--openssl-legacy-provider && pnpm exec next build || true # Weird!
+        env:
+          NEXT_PUBLIC_STATIC_PROPS: ${{vars.NEXT_PUBLIC_STATIC_PROPS}}
+
+      # This is weird!
+      - run: mv _site/static _site/export/_next && mv public/* _site/export && mv _site/export/* _site
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          retention-days: 90
+
+      - uses: actions/deploy-pages@v4
+
+    permissions:
+      id-token: write
+      pages: write

@@ -13,24 +13,23 @@
  * limitations under the License.
  */
 
-// #region -Dependencies
+.json {
+	font-family: monospace;
 
-// MARK: React
-import { useEffect } from "react"
+	max-width: 90%;
+	overflow-x: auto;
 
-// MARK: Next: Router
-import { useRouter } from "next/router"
+	color: #ffffff;
+}
 
-// #endregion
-
-// MARK: -Component
-export default function NotFound() {
-	const router = useRouter()
-
-	const redirect = () => {
-		router.push("/", undefined)
+@media (min-width: 1024px) {
+	.json {
+		max-width: 66%;
 	}
+}
 
-	useEffect(redirect, [])
-	return null
+@media (min-width: 1440px) {
+	.json {
+		max-width: 80%;
+	}
 }
