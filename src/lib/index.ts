@@ -13,24 +13,23 @@
  * limitations under the License.
  */
 
-// #region -Dependencies
+type Props = {
+	contributor: any
+	dependencies: any
+	"key-0": any
+}
 
-// MARK: React
-import { useEffect } from "react"
+/** Returns the object.
+ *
+ * @author Vladimir Leonidovich
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+export function useObject(full: boolean = false): Readonly<Props> {
+	const object = JSON.parse(process.env.NEXT_PUBLIC_STATIC_PROPS ?? "{}")
 
-// MARK: Next: Router
-import { useRouter } from "next/router"
+	// Get the first object.
+	const key = Object.keys(object).at(0)!
 
-// #endregion
-
-// MARK: -Component
-export default function NotFound() {
-	const router = useRouter()
-
-	const redirect = () => {
-		router.push("/", undefined)
-	}
-
-	useEffect(redirect, [])
-	return null
+	return full ? object : object[key]
 }

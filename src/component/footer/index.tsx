@@ -13,46 +13,54 @@
  * limitations under the License.
  */
 
-// #region -Dependencies
-
-// MARK: Next: Head
-import Head from "next/head"
-
-// #endregion
-
 // #region -Contributors’
 
 // MARK: .
 import { useObject } from "@/lib"
 
 // MARK: .
-import { Container } from "@/styles/Projetos"
-
-// MARK: Components
-import { ProjectCard } from "@/component"
+import { Container } from "./styles"
 
 // #endregion
 
 // MARK: -Component
-export default function Home() {
+export function Footer() {
 	const {
-		contributor: {
-			name,
-			url: { artifacts }
-		}
+		contributor: { name, role, socials },
+		dependencies
 	} = useObject()
 
 	return (
 		<Container>
-			<Head>
-				<title>Артефакты | {name}</title>
-			</Head>
-			<h1>АРТЕФАКТЫ</h1>
-			<h2 className="subtitle">Ознакомтесь с примерами моих артефактов</h2>
-			{artifacts.map((artifact: any) => {
-				const { name, ...rest } = artifact
-				return <ProjectCard key={name} name={name} {...rest} />
-			})}
+			<div>
+				<div className="logo">
+					<img alt="Logo" src="/cv-2024-06-18T131517.660Z/logo.png" />
+					<p>
+						Сделано
+						<br />
+						{name}
+						<br />
+						{role}
+					</p>
+				</div>
+				<div className="social-media">
+					{socials.map(social => {
+						const { name, url } = social
+						const lookup = name.toLowerCase()
+
+						return (
+							<a key={name} target="_blank" rel="noreferrer" href={url}>
+								<img
+									alt={`Logo of ${name}`}
+									width={24}
+									height={24}
+									src={dependencies[lookup]}
+								/>
+							</a>
+						)
+					})}
+				</div>
+			</div>
 		</Container>
 	)
 }

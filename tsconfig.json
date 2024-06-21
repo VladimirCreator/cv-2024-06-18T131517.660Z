@@ -1,19 +1,32 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve"
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "babel.config.js"],
-  "exclude": ["node_modules"]
+	"exclude": ["node_modules"],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "babel.config.js"],
+	"compilerOptions": {
+		// MARK: .
+		"allowJs": true,
+		// MARK: .
+		"noEmit": true,
+		// MARK: .
+		"strict": false,
+		// MARK: .
+		"isolatedModules": true,
+		"skipLibCheck": true,
+		"resolveJsonModule": true,
+		// MARK: .
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"]
+		},
+		// MARK: .
+		"target": "es5",
+		"lib": ["DOM", "DOM.Iterable", "ESNext"],
+		// MARK: .
+		"jsx": "preserve",
+		// MARK: .
+		"forceConsistentCasingInFileNames": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"incremental": true
+	}
 }

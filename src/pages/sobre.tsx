@@ -1,156 +1,141 @@
-import React from "react";
-import Head from "next/head";
-import Typed from "typed.js";
-import { PrismicRichText } from "@prismicio/react";
-import Tooltip from "@mui/material/Tooltip";
-
-import { createClient } from "../../prismicio";
-
-import { Avatar, Container, ToolsContainer, Work } from "../styles/Sobre";
-
-/**
- * Sobre Page
- * @return {JSX.Element}
+/* Copyright 2024 Vladimir Leonidovich
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-type WorkExperience = {
-  job: string;
-  date: string;
-  link: string;
-  company: string;
-};
+// #region -Dependencies
 
-type Tool = {
-  name: string;
-  icon: string;
-};
+// MARK: React
+import { useRef, useEffect } from "react"
 
-type Content = {
-  avatar: string;
-  title: string;
-  description: [];
-  typed: string[];
-  tools: Tool[];
-  work: WorkExperience[];
-};
+// MARK: Next: Head
+import Head from "next/head"
+// MARK: MUI: Material
+import Tooltip from "@mui/material/Tooltip"
+// MARK: Typed
+import Typed from "typed.js"
 
-interface SobreProps {
-  content: Content;
-}
+// #endregion
 
-export default function Sobre({ content }: SobreProps): JSX.Element {
-  const el = React.useRef(null);
+// #region -Contributors’
 
-  React.useEffect(() => {
-    const typed = new Typed(el?.current, {
-      strings: content.typed || [],
-      typeSpeed: 50,
-      backSpeed: 50,
-      backDelay: 120,
-      loop: true,
-      showCursor: false,
-    });
+// MARK: .
+import { useObject } from "@/lib"
 
-    // eslint-disable-next-line consistent-return
-    return () => {
-      typed.destroy();
-    };
-  }, []);
+// MARK: .
+import { Avatar, Container, ToolsContainer, Work } from "@/styles/Sobre"
 
-  return (
-    <Container>
-      <Head>
-        <title>Sobre | Arthur Sena</title>
-      </Head>
-      <Avatar>
-        <img
-          src={content?.avatar}
-          alt="Foto de Arthur Sena"
-          className="avatar"
-        />
-        <div>
-          <h1>Arthur Sena</h1>
-          <h2>{content?.title}</h2>
-          <span ref={el} className="typed" />
-          <div className="social-media">
-            <a
-              href="https://github.com/senaarth"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src="/images/github.png" alt="Logo Github" />
-            </a>
-            <a
-              href="https://linkedin.com/in/senaarth"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <img src="/images/linkedin.png" alt="Logo Linkedin" />
-            </a>
-          </div>
-        </div>
-      </Avatar>
-      <PrismicRichText
-        field={content?.description}
-        components={{
-          paragraph: ({ children }) => <p className="desc">{children}</p>,
-        }}
-      />
-      <Work>
-        <h3>Experiência Profissional</h3>
-        {content?.work?.map((item) => {
-          return (
-            <div key={item.date}>
-              <h4>{item?.job}</h4>
-              <a href={item?.link} target="_blank" rel="noreferrer">
-                {item?.company}
-              </a>
-              <p>{item?.date}</p>
-            </div>
-          );
-        })}
-      </Work>
-      <h3>Principais Ferramentas</h3>
-      <ToolsContainer>
-        {content.tools?.map((item) => {
-          return (
-            <Tooltip title={item?.name} key={item?.name}>
-              <div>
-                <img src={item?.icon} alt={item?.name} />
-              </div>
-            </Tooltip>
-          );
-        })}
-      </ToolsContainer>
-    </Container>
-  );
-}
+// #endregion
 
-export async function getServerSideProps({ previewData }) {
-  const client = createClient({ previewData });
+export default function Sobre() {
+	// MARK: .
+	const {
+		contributor: {
+			name,
+			role,
+			description,
+			dependencies,
+			url: { photograph },
+			socials,
+			enterprise
+		},
+		dependencies: dep
+	} = useObject()
 
-  const { data } = await client.getSingle("about");
+	// MARK: .
+	const el = useRef(null!)
 
-  const content = {
-    avatar: data?.avatar?.url,
-    description: data?.description,
-    title: data?.title,
-    typed: data?.tools_typed?.map((item) => item?.tool),
-    tools: data?.tools?.map((item) => {
-      return {
-        ...item,
-        icon: item?.icon.url,
-      };
-    }),
-    work: data?.work?.map((item) => {
-      return {
-        ...item,
-        link: item?.link.url,
-      };
-    }),
-  };
+	// MARK: .
+	const effect = () => {
+		const strings =
+			dependencies
+				.filter(dependency => dependency.typed)
+				.map(dependency => dependency.name) ?? []
+		const typed = new Typed(el.current, {
+			strings,
+			typeSpeed: 80,
+			backSpeed: 90,
+			backDelay: 120,
+			loop: true,
+			showCursor: false,
+			startDelay: 1600
+		})
 
-  return {
-    props: { content },
-  };
+		return typed.destroy
+	}
+
+	useEffect(effect, [])
+	return (
+		<Container>
+			<Head>
+				{/* feat(i18n): . */}
+				<title>Обо мне | {name}</title>
+			</Head>
+			<Avatar>
+				<img alt={`Image of ${name}`} className="avatar" src={photograph} />
+				<div>
+					<h1>{name}</h1>
+					<h2>{role}</h2>
+					<span ref={el} className="typed" />
+					<div className="social-media">
+						{socials.map(social => {
+							const { name, url } = social
+							return (
+								<a rel="noreferrer" target="_blank" href={url}>
+									<img alt={`Logo of ${name}`} src={dep[name.toLowerCase()]} />
+								</a>
+							)
+						})}
+					</div>
+				</div>
+			</Avatar>
+			<p className="desc">{description}</p>
+			{enterprise && (
+				<Work hidden={enterprise === null}>
+					<h3>Профессиональный опыт</h3>
+					{enterprise.map(item => {
+						const { job, date, url, company } = item
+						return (
+							<div key={date}>
+								<h4>{job}</h4>
+								<a href={url} target="_blank" rel="noreferrer">
+									{company}
+								</a>
+								<p>{date}</p>
+							</div>
+						)
+					})}
+				</Work>
+			)}
+			<h3>Мой основной стэк</h3>
+			<ToolsContainer>
+				{dependencies.map(dependency => {
+					let name: string
+					if (typeof dependency === "object") {
+						name = dependency.name
+					} else {
+						name = dependency
+					}
+
+					return (
+						<Tooltip key={name} title={name}>
+							<div>
+								<img alt={name} src={dep[name.toLocaleLowerCase()]} />
+							</div>
+						</Tooltip>
+					)
+				})}
+			</ToolsContainer>
+		</Container>
+	)
 }

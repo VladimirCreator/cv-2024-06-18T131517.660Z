@@ -1,141 +1,144 @@
-/* eslint-disable camelcase */
-import React from "react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import Tooltip from "@mui/material/Tooltip";
+/* Copyright 2024 Vladimir Leonidovich
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import { PrismicRichText } from "@prismicio/react";
-import { createClient } from "../../../../prismicio";
+// #region -Dependencies
 
-import { Page } from "../../../styles/global";
-import { Container, ToolsContainer } from "../../../styles/Projeto";
+// MARK: Next: Head
+import Head from "next/head"
+// MARK: Next: Router
+import { useRouter } from "next/router"
 
-type Tool = {
-  tool_name: string;
-  tool_icon: string;
-};
+// MARK: MUI: Material - Tooltip
+import Tooltip from "@mui/material/Tooltip"
 
-type Project = {
-  slug: string;
-  name: string;
-  link: string;
-  description: [];
-  banner: string;
-  place: number;
-  tools: Tool[];
-};
+// #endregion
 
-interface ProjectProps {
-  project: Project;
+// #region -Contributors’
+
+// MARK: .
+import { useObject } from "@/lib"
+
+// MARK: .
+import { Page } from "@/styles/global"
+import { Container, ToolsContainer } from "@/styles/Projeto"
+
+// #endregion
+
+// MARK: -Data
+export function getStaticPaths() {
+	const {
+		contributor: {
+			url: { artifacts }
+		}
+	} = useObject()
+	const paths = artifacts.map(artifact => {
+		return {
+			params: {
+				slug: artifact.name.toLowerCase().replace(" ", "")
+			}
+		}
+	})
+
+	return {
+		paths,
+		fallback: true
+	}
+}
+export function getStaticProps(context: any) {
+	return {
+		props: { id: context.params.slug }
+	}
 }
 
-export default function Projeto({ project }: ProjectProps) {
-  const router = useRouter();
+// MARK: -Component
+export default function Projeto(props: any) {
+	const router = useRouter()
 
-  React.useEffect(() => {
-    if (!project) router.push("/projetos");
-  }, []);
+	const {
+		contributor: {
+			name,
+			url: { artifacts }
+		},
+		dependencies
+	} = useObject()
+	const artifact = artifacts.find(artifact =>
+		artifact.name.toLowerCase().replace(" ", "").includes(router.query.slug)
+	)
 
-  return (
-    <Page>
-      <Head>
-        <title>{`${project?.name || "Projeto"} | Arthur Sena`}</title>
-      </Head>
-      <Container>
-        <div className="back">
-          <button type="button" onClick={() => router.back()}>
-            <img src="/images/left-arrow.png" alt="Seta para esquerda" />
-          </button>
-        </div>
-        <a
-          className="title"
-          href={project?.link}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {project?.name}
-          <img
-            src="/images/up-right-arrow.png"
-            alt="Seta apontando para a direito e para cimaa"
-          />
-        </a>
-        <PrismicRichText
-          field={project?.description}
-          components={{
-            paragraph: ({ children }) => <p className="desc">{children}</p>,
-          }}
-        />
-        <h1>Tecnologias Utilizadas</h1>
-        <ToolsContainer>
-          {project?.tools?.map((item) => {
-            return (
-              <Tooltip title={item?.tool_name} key={item?.tool_name}>
-                <div>
-                  <img src={item?.tool_icon} alt={item?.tool_name} />
-                </div>
-              </Tooltip>
-            );
-          })}
-        </ToolsContainer>
-        <img
-          src={project?.banner}
-          alt={`Banner ${project?.name}`}
-          className="banner"
-        />
-      </Container>
-    </Page>
-  );
-}
+	// useEffect(() => {
+	// 	if (!project) router.push("/projetos")
+	// }, [])
 
-export const getStaticPaths = async ({ previewData }) => {
-  const client = createClient({ previewData });
-  const projects = await client.getAllByType("project");
-
-  const paths = projects.map((project) => {
-    return {
-      params: {
-        slug: project?.uid,
-      },
-    };
-  });
-
-  return {
-    paths,
-    fallback: true,
-  };
-};
-
-export async function getStaticProps({ previewData, params }) {
-  const client = createClient({ previewData });
-
-  const { slug } = params;
-  let project;
-
-  try {
-    const { data } = await client.getByUID("project", slug, {
-      ref: null,
-    });
-
-    if (!data) throw new Error();
-
-    project = {
-      ...data,
-      banner: data?.banner?.url || null,
-      tools:
-        data?.tools?.map((item) => {
-          return {
-            ...item,
-            tool_icon: item.tool_icon.url,
-          };
-        }) || null,
-    };
-  } catch {
-    project = null;
-  }
-
-  return {
-    props: {
-      project,
-    },
-  };
+	return (
+		<Page>
+			<Head>
+				<title>
+					{artifact.name} | {name}
+				</title>
+			</Head>
+			<Container>
+				<div className="back">
+					<button type="button" onClick={() => router.back()}>
+						<img
+							alt="Get Back."
+							src="/cv-2024-06-18T131517.660Z/left-arrow.png"
+						/>
+					</button>
+				</div>
+				<a
+					className="title"
+					target="_blank"
+					rel="noreferrer"
+					href={artifact.url.web}
+				>
+					{artifact.name}
+					<img
+						src="/cv-2024-06-18T131517.660Z/up-right-arrow.png"
+						alt="Seta apontando para a direito e para cimaa"
+					/>
+				</a>
+				{Array.isArray(artifact.description) ? (
+					artifact.description.map(string => (
+						<p className="desc" children={string} />
+					))
+				) : (
+					<p className="desc">{artifact.description ?? artifact.synopsis}</p>
+				)}
+				<h1>Используемые технологии</h1>
+				<ToolsContainer>
+					{artifact.dependencies.map(item => {
+						return (
+							<Tooltip title={item} key={item}>
+								<div>
+									<img
+										alt={item}
+										src={dependencies[item.toLowerCase().replace(" ", "")]}
+									/>
+								</div>
+							</Tooltip>
+						)
+					})}
+				</ToolsContainer>
+				{artifact.url.image && (
+					<img
+						src={artifact.url.image}
+						alt={`Banner of ${artifact.url.image}`}
+						className="banner"
+					/>
+				)}
+			</Container>
+		</Page>
+	)
 }

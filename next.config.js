@@ -1,3 +1,30 @@
+/* Copyright 2024 Vladimir Leonidovich
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// [ ](governance): CC-BY-4.0
+
+/** @type {import("next").NextConfig} */
 module.exports = {
-  reactStrictMode: true,
-};
+	// MARK: .
+	basePath: "/cv-2024-06-18T131517.660Z",
+
+	// MARK: .
+	distDir: "_site",
+
+	// MARK: .
+	typescript: {
+		ignoreBuildErrors: true
+	}
+}

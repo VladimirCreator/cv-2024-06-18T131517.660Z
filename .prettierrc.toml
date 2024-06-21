@@ -14,17 +14,8 @@
 
 # [ ](governance): CC-BY-4.0
 
-# MARK: -Essentials
+semi = false
 
+trailingComma = "none"
 
-# MARK: -Artifact
-_site/
-
-# MARK: -The Node Package Manager
-node_modules/
-
-# MARK: -Next
-.next
-
-# MARK: -Nx
-.nx/
+arrowParens = "avoid"

@@ -16,33 +16,64 @@
 import styled from "styled-components"
 
 export const Container = styled.div`
-	width: 90%;
-	max-width: 1120px;
-	flex: 1;
+	width: 100%;
+	height: 100%;
+	z-index: 999;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+
+	background-color: #111;
 
 	display: flex;
-	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 
-	margin-top: 5rem;
-	padding: 2rem 0;
+	transition: opacity 1s;
 
-	> h1 {
-		font-weight: 500;
-		color: white;
-		font-size: 2em;
-	}
-
-	> h2 {
-		font-size: 1rem;
+	&,
+	* {
+		font-size: 2rem;
 		color: #b1b1b1;
-		font-weight: 300;
-		margin-bottom: 2rem;
-		text-align: center;
+		margin: 0;
+
+		@media (min-width: 768px) {
+			font-size: 3.5rem;
+		}
 	}
 
-	div + div {
-		margin-top: 1.5rem;
+	&.d-none {
+		display: none;
+	}
+
+	span.zoom {
+		-webkit-animation: zoom 0.6s forwards;
+		animation: zoom 0.6s forwards;
+	}
+
+	span.rotate {
+		-webkit-animation: rotate 0.6s forwards;
+		animation: rotate 0.6s forwards;
+	}
+
+	@keyframes rotate {
+		from {
+			transform: rotate(0);
+		}
+
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes zoom {
+		from {
+			transform: scale(1);
+		}
+
+		to {
+			transform: scale(4);
+		}
 	}
 `
