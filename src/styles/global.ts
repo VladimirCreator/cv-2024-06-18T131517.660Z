@@ -34,6 +34,10 @@ export default createGlobalStyle`
     background-color: #111;
   }
 
+	html {
+   height: 100%;
+  }
+
   a {
     color: #b1b1b1;
     text-decoration: none;
