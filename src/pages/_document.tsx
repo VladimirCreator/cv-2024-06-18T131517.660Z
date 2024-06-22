@@ -32,6 +32,7 @@ import { ServerStyleSheet } from "styled-components"
 // #region -Contributors’
 
 // MARK: .
+import { useObject } from "@/lib"
 
 // #endregion
 
@@ -65,6 +66,11 @@ export default class MyDocument extends Document {
 	}
 
 	public render() {
+		const {
+			contributor: {
+				name, role
+			}
+		} = useObject()
 		return (
 			<Html lang="ru">
 				<Head>
@@ -87,11 +93,11 @@ export default class MyDocument extends Document {
 						content="/cv-2024-06-18T131517.660Z/logo.png"
 					/>
 
-					<meta property="og:site_name" content="Arthur Sena | Desenvolvedor" />
-					<meta property="og:title" content="Arthur Sena | Desenvolvedor" />
+					<meta property="og:site_name" content={`${name} | ${role}`} />
+					<meta property="og:title" content={`${name} | ${role}`} />
 					<meta
 						property="og:description"
-						content="Me chamo Arthur Sena e sou desenvolvedor de software, clique e conheça meu trabalho!"
+						content={`Меня зовут ${name} и я ${role}. На сайте можно ознакомиться со всей информацией обо мне.`}
 					/>
 
 					<meta property="og:image" content="/share.png" />
@@ -102,7 +108,7 @@ export default class MyDocument extends Document {
 					<meta property="og:image:width" content="200" />
 					<meta property="og:image:height" content="200" />
 
-					<meta property="og:url" content="https://www.arthursena.com.br" />
+					{/* <meta property="og:url" content={} /> */}
 				</Head>
 				<body>
 					<Main />
