@@ -12,19 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# [ ](governance): CC-BY-4.0
+.env.local
 
-# MARK: -Essentials
-
-
-# MARK: -Artifact
+# MARK: Artifact
 _site/
 
-# MARK: -The Node Package Manager
+# MARK: The Node Package Manager
 node_modules/
 
-# MARK: -Next
-.next
+# MARK: Next
+.next/
 
-# MARK: -Nx
-.nx/
+# [ ](governance): CC-BY-4.0
