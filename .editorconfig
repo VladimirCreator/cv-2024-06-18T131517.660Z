@@ -12,28 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# [ ](governance): CC-BY-4.0
-
 root = true
 
-# MARK: -Essentials
 [*]
 charset = utf-8
 
 indent_style = tab
 indent_size = 2
 
-quite_type = double
+quote_type = double
 
 trim_trailing_whitespace = true
 end_of_line = lf
-
 insert_final_newline = true
 
-# MARK: -YAML Ain’t Markup Language
+# MARK: YAML Ain’t Markup Language
 [*.{yml,yaml}]
 indent_style = space
 
-# MARK: -Markdown
+# MARK: Markdown
 [*.md]
+max_line_length = off
 
+# [ ](governance): CC-BY-4.0
