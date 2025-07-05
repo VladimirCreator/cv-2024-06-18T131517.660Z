@@ -15,7 +15,9 @@
 .env.local
 
 # MARK: Artifact
+/dist/
 _site/
+/out/
 
 # MARK: The Node Package Manager
 node_modules/
