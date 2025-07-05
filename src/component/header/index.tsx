@@ -38,20 +38,13 @@ export function Header() {
 		<Container>
 			<ContentContainer>
 				<a href="./" className="logo">
-					<img src="/cv-2024-06-18T131517.660Z/logo.png" alt="Logo" />
+					<img src="/logo.png" alt="Logo" />
 				</a>
 				<Navigation className={menuOpen ? "visible" : ""}>
-					<NavLink onClick={() => setMenu(false)} href="./" label="Главная" />
-
-					<NavLink
-						label="Артефакты"
-						onClick={() => setMenu(false)}
-						href="./projetos"
-					/>
-
+					<NavLink onClick={() => setMenu(false)} href="/" label="Главная" />
 					<NavLink
 						onClick={() => setMenu(false)}
-						href="./sobre"
+						href="/sobre"
 						label="Обо мне"
 					/>
 				</Navigation>

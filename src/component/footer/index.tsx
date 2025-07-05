@@ -34,7 +34,7 @@ export function Footer() {
 		<Container>
 			<div>
 				<div className="logo">
-					<img alt="Logo" src="/cv-2024-06-18T131517.660Z/logo.png" />
+					<img alt="Logo" src="/logo.png" />
 					<p>
 						Сделано
 						<br />

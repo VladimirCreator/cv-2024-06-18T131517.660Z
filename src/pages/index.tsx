@@ -72,26 +72,22 @@ export default function Home() {
 							Entrar em contato
 							<span className="background" />
 						</button>
-						<button
+						{<button
 							type="button"
-							onClick={() => {
-								const projetos = document.querySelector("#projetos")
-
-								projetos.scrollIntoView({ behavior: "smooth" })
-							}}
+							onClick={() => router.push("/sobre")}
 							className="outlined"
 						>
-							Мои Артефакты
+							Обо мне
 							<span className="background" />
-						</button>
-						<button
+						</button>}
+						{/*<button
 							type="button"
 							onClick={() => router.push("/sobre")}
 							className="link"
 						>
 							Обо мне
 							<span className="background" />
-						</button>
+						</button>*/}
 					</div>
 				</div>
 				<div className="avatar">
@@ -115,21 +111,6 @@ export default function Home() {
 					</div>
 				</div>
 			</Hero>
-			<span id="projetos" style={{ height: "5rem", marginTop: "-3rem" }} />
-			<Projects>
-				<h1>Мои Артефакты</h1>
-				{url.artifacts.slice(0, 3).map((artifact, index) => {
-					const { name, ...rest } = artifact
-					return (
-						<ProjectCard
-							key={name}
-							name={name}
-							{...rest}
-							isLast={index === 2}
-						/>
-					)
-				})}
-			</Projects>
 			<span id="contato" style={{ height: "7rem", marginTop: "-5rem" }} />
 			<CommunicationForm />
 		</Page>

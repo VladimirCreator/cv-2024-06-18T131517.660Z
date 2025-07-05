@@ -79,7 +79,7 @@ export default class MyDocument extends Document {
 						rel="icon"
 						type="image/png"
 						sizes="any"
-						href="/cv-2024-06-18T131517.660Z/logo.png"
+						href="/logo.png"
 					/>
 					<link rel="preconnect" href="https://fonts.googleapis.com" />
 					<link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -90,7 +90,7 @@ export default class MyDocument extends Document {
 
 					<meta
 						name="msapplication-TileImage"
-						content="/cv-2024-06-18T131517.660Z/logo.png"
+						content="/logo.png"
 					/>
 
 					<meta property="og:site_name" content={`${name} | ${role}`} />

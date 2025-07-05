@@ -18,7 +18,7 @@
 /** @type {import("next").NextConfig} */
 module.exports = {
 	// MARK: .
-	basePath: "/cv-2024-06-18T131517.660Z",
+	output: "export",
 
 	// MARK: .
 	distDir: "_site",
